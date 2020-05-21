@@ -2,8 +2,9 @@ version: "3"
 
 services:
   apache:
-    container_name: sklep_apache
+    container_name: shop_apache
     build: ./apache
+    restart: always
     ports:
       - 80:80
       - 443:443
@@ -17,16 +18,46 @@ services:
       - .:/app
 
   php:
-    container_name: sklep_php
+    container_name: shop_php
     build: ./php
+    restart: always
     ports:
       - 9000:9000
 # info - czy to ponizej jest potrzebne, by działało powiązanie między php-fpm a apache ???
     networks:
       - backend
+    links:
+      - db
+      - redis
 # info ends
     volumes:
       - .:/app
+
+  db:
+    container_name: shop_sql
+    build: ./sql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  redis:
+    container_name: shop_redis
+    build: ./redis
+    restart: always
+#    ports:
+#      - 3306:3306
+
+  adminer:
+    container_name: shop_adminer
+    image: adminer
+    restart: always
+    links:
+      - php
+      - redis
+    ports:
+      - 8080:8080
 
 networks:
   backend:
