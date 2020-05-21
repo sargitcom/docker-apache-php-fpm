@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  apache:
+    container_name: sklep_apache
+    build: ./apache
+    ports:
+      - 80:80
+      - 443:443
+# czy to ponizej jest potrzebne, by działało powiązanie między php-fpm a apache ???
+#    links:
+#      - php
+#    networks:
+#      - backend
+    volumes:
+      - .:/app
+
+  php:
+    container_name: sklep_php
+    build: ./php
+    ports:
+      - 9000:9000
+# czy to ponizej jest potrzebne, by działało powiązanie między php-fpm a apache ???
+#    networks:
+#      - backend
+    volumes:
+      - .:/app
+
+networks:
+  backend:
