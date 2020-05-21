@@ -7,11 +7,12 @@ services:
     ports:
       - 80:80
       - 443:443
-# czy to ponizej jest potrzebne, by działało powiązanie między php-fpm a apache ???
-#    links:
-#      - php
-#    networks:
-#      - backend
+# info - czy to ponizej jest potrzebne, by działało powiązanie między php-fpm a apache ???
+    links:
+      - php
+    networks:
+      - backend
+# info ends
     volumes:
       - .:/app
 
@@ -20,9 +21,10 @@ services:
     build: ./php
     ports:
       - 9000:9000
-# czy to ponizej jest potrzebne, by działało powiązanie między php-fpm a apache ???
-#    networks:
-#      - backend
+# info - czy to ponizej jest potrzebne, by działało powiązanie między php-fpm a apache ???
+    networks:
+      - backend
+# info ends
     volumes:
       - .:/app
 
